@@ -12,7 +12,7 @@ const std::pair<std::string, int> numbers[9] = {
 
 int match_number(std::string_view view) {
   for (const auto &[word, number] : numbers) {
-    if (view.rfind(word, 0) == 0) {
+    if (view.starts_with(word)) {
       return number;
     }
   }
