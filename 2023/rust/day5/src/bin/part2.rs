@@ -5,6 +5,7 @@ use nom::{
     sequence::{delimited, preceded, separated_pair, tuple},
     IResult,
 };
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
 fn main() {
     let input = include_str!("../../../../input/day5/input.txt");
@@ -65,7 +66,7 @@ fn part2(input: &str) -> u64 {
     let (_input, maps) = separated_list1(tag("\n\n"), parse_maps)(input.trim()).unwrap();
 
     seeds
-        .iter()
+        .par_iter()
         .flat_map(|seed_range| seed_range.0..seed_range.0 + seed_range.1)
         .map(|seed| {
             let mut val = seed;
