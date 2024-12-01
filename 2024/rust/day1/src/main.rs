@@ -2,76 +2,68 @@ use std::{collections::HashMap, iter::zip};
 
 fn main() {
     let input = include_str!("../../../input/day1/example.txt");
-    part1(&input);
-    part2(&input);
+    let (left_list, right_list) = parse_input(input);
+
+    part1(&left_list, &right_list);
+    part2(&left_list, &right_list);
 }
 
-fn part1(input: &str) -> i32 {
-    let mut left_list: Vec<i32> = Vec::new();
-    let mut right_list: Vec<i32> = Vec::new();
+fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
+    let (mut left_list, mut right_list) = (Vec::new(), Vec::new());
 
     for line in input.lines() {
-        let (left, right) = line.split_once(" ").unwrap();
-        left_list.push(left.trim().parse::<i32>().unwrap());
-        right_list.push(right.trim().parse::<i32>().unwrap());
+        if let Some((left, right)) = line.split_once(" ") {
+            left_list.push(left.trim().parse().unwrap());
+            right_list.push(right.trim().parse().unwrap());
+        }
     }
 
     left_list.sort();
     right_list.sort();
+    (left_list, right_list)
+}
 
-    let mut sum = 0;
-    for (left, right) in zip(left_list, right_list) {
-        sum += (left - right).abs();
-    }
+fn part1(left_list: &[i32], right_list: &[i32]) -> i32 {
+    let sum: i32 = zip(left_list, right_list)
+        .map(|(left, right)| (left - right).abs())
+        .sum();
     println!("sum: {}", sum);
-
-    return sum;
+    sum
 }
 
-fn part2(input: &str) -> i32 {
-    let mut left_list: Vec<i32> = Vec::new();
-    let mut right_list: Vec<i32> = Vec::new();
+fn part2(left_list: &[i32], right_list: &[i32]) -> i32 {
+    let frequency_map = right_list.iter().fold(HashMap::new(), |mut map, &val| {
+        *map.entry(val).or_insert(0) += 1;
+        map
+    });
 
-    for line in input.lines() {
-        let (left, right) = line.split_once(" ").unwrap();
-        left_list.push(left.trim().parse::<i32>().unwrap());
-        right_list.push(right.trim().parse::<i32>().unwrap());
-    }
-
-    left_list.sort();
-    right_list.sort();
-
-    let mut frequency_map: HashMap<i32, i32> = HashMap::new();
-    for val in right_list {
-        *frequency_map.entry(val).or_insert(0) += 1;
-    }
-
-    let mut result = 0;
-
-    for val in left_list {
-        result += val * frequency_map.get(&val).unwrap_or(&0);
-    }
-
+    let result: i32 = left_list
+        .iter()
+        .map(|&val| val * frequency_map.get(&val).unwrap_or(&0))
+        .sum();
     println!("similarity: {}", result);
-    return result;
+    result
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::part1;
-    use crate::part2;
+    use crate::{parse_input, part1, part2};
 
     #[test]
     fn test_example() {
-        let input = include_str!("../../../input/day1/example.txt");
-        assert_eq!(part1(&input), 11);
-        assert_eq!(part2(&input), 31);
+        let input: &str = include_str!("../../../input/day1/example.txt");
+        let (left_list, right_list) = parse_input(input);
+
+        part1(&left_list, &right_list);
+        part2(&left_list, &right_list);
     }
 
     #[test]
     fn test_input() {
-        let input = include_str!("../../../input/day1/input.txt");
-        part1(&input);
-        part2(&input);
+        let input: &str = include_str!("../../../input/day1/input.txt");
+        let (left_list, right_list) = parse_input(input);
+
+        part1(&left_list, &right_list);
+        part2(&left_list, &right_list);
     }
 }
