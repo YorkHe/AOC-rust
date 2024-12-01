@@ -4,8 +4,8 @@ fn main() {
     let input = include_str!("../../../input/day1/example.txt");
     let (left_list, right_list) = parse_input(input);
 
-    part1(&left_list, &right_list);
-    part2(&left_list, &right_list);
+    println!("sum: {}", part1(&left_list, &right_list));
+    println!("similarity: {}", part2(&left_list, &right_list));
 }
 
 fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
@@ -24,11 +24,9 @@ fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
 }
 
 fn part1(left_list: &[i32], right_list: &[i32]) -> i32 {
-    let sum: i32 = zip(left_list, right_list)
+    zip(left_list, right_list)
         .map(|(left, right)| (left - right).abs())
-        .sum();
-    println!("sum: {}", sum);
-    sum
+        .sum()
 }
 
 fn part2(left_list: &[i32], right_list: &[i32]) -> i32 {
@@ -37,12 +35,10 @@ fn part2(left_list: &[i32], right_list: &[i32]) -> i32 {
         map
     });
 
-    let result: i32 = left_list
+    left_list
         .iter()
         .map(|&val| val * frequency_map.get(&val).unwrap_or(&0))
-        .sum();
-    println!("similarity: {}", result);
-    result
+        .sum()
 }
 
 #[cfg(test)]
@@ -54,8 +50,8 @@ mod tests {
         let input: &str = include_str!("../../../input/day1/example.txt");
         let (left_list, right_list) = parse_input(input);
 
-        part1(&left_list, &right_list);
-        part2(&left_list, &right_list);
+        println!("sum: {}", part1(&left_list, &right_list));
+        println!("similarity: {}", part2(&left_list, &right_list));
     }
 
     #[test]
@@ -63,7 +59,7 @@ mod tests {
         let input: &str = include_str!("../../../input/day1/input.txt");
         let (left_list, right_list) = parse_input(input);
 
-        part1(&left_list, &right_list);
-        part2(&left_list, &right_list);
+        println!("sum: {}", part1(&left_list, &right_list));
+        println!("similarity: {}", part2(&left_list, &right_list));
     }
 }
