@@ -1,3 +1,10 @@
+fn main() {
+    let input: &str = include_str!("../../../input/day2/example.txt");
+    let lists = parse_input(input);
+    assert_eq!(2, part1(&lists));
+    assert_eq!(4, part2(&lists));
+}
+
 fn parse_input(input: &str) -> Vec<Vec<i32>> {
     input
         .lines()
@@ -43,7 +50,7 @@ mod tests {
 
     #[test]
     fn test_example() {
-        let input = include_str!("../../../input/day2/example.txt");
+        let input: &str = include_str!("../../../input/day2/example.txt");
         let lists = parse_input(input);
         assert_eq!(2, part1(&lists));
         assert_eq!(4, part2(&lists));
