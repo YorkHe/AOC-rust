@@ -129,14 +129,14 @@ mod tests {
 
     #[test]
     fn test_example() {
-        let input = include_str!("../../input/day5/example.txt");
+        let input = include_str!("../../../input/day5/example.txt");
         assert_eq!(143, part1(input));
         assert_eq!(123, part2(input));
     }
 
     #[test]
     fn test_input() {
-        let input = include_str!("../../input/day5/input.txt");
+        let input = include_str!("../../../input/day5/input.txt");
         println!("p1: {}", part1(input));
         println!("p2: {}", part2(input));
     }
